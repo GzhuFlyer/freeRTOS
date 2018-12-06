@@ -12,33 +12,25 @@ static const char *pcTextForTask2 = "Task 2 is running \r\n";
 static const char *pcTextForTask3 = "Task 3 is running \r\n";
 static const char *pcTextForTask4 = "Task 4 is running \r\n";
 
-
-void vPrintfString(char* c)
-{
-	printf("%s\n",c);
+void vPrintfString(char* c) {
+	printf("%s\n", c);
 }
 
-void vTask1(void *pvParameters)
-{
-//	const char *pvTaskName = "Task 1 is running \r\n";
-	volatile unsigned long u1;
-	for(;;)
-	{
-		vPrintfString(pvParameters);
-		vTaskDelay(500);
-//		for(u1 = 0;u1 < DELAY_TIME;u1++)
-//		{
-//
-//		}
+void vTask1(void *pvParameters) {
+	char *pcTaskName;
+	pcTaskName = (char*) pvParameters;
+	portTickType xLastWakeTime;
+	xLastWakeTime = xTaskGetTickCount();
+	for (;;) {
+		vPrintfString(pcTaskName);
+		vTaskDelayUntil(&xLastWakeTime, (250 / portTICK_RATE_MS));
 	}
 	vTaskDelete(NULL);
 }
-void vTask2(void *pvParameters)
-{
+void vTask2(void *pvParameters) {
 //	const char *pvTaskName = "Task 2 is running \r\n";
 	volatile unsigned long u1;
-	for(;;)
-	{
+	for (;;) {
 		vPrintfString(pvParameters);
 		vTaskDelay(500);
 //		for(u1 = 0;u1 < DELAY_TIME;u1++)
@@ -48,14 +40,12 @@ void vTask2(void *pvParameters)
 	}
 	vTaskDelete(NULL);
 }
-void vTask3(void *pvParameters)
-{
+void vTask3(void *pvParameters) {
 //	const char *pvTaskName = "Task 3 is running \r\n";
 	volatile unsigned long u1;
-	for(;;)
-	{
+	for (;;) {
 		vPrintfString(pvParameters);
-		vTaskDelay(500);
+		vTaskDelay(250);
 //		for(u1 = 0;u1 < DELAY_TIME;u1++)
 //		{
 //
@@ -63,14 +53,12 @@ void vTask3(void *pvParameters)
 	}
 	vTaskDelete(NULL);
 }
-void vTask4(void *pvParameters)
-{
+void vTask4(void *pvParameters) {
 //	const char *pvTaskName = "Task 4 is running \r\n";
 	volatile unsigned long u1;
-	for(;;)
-	{
+	for (;;) {
 		vPrintfString(pvParameters);
-		vTaskDelay(500);
+		vTaskDelay(250);
 //		for(u1 = 0;u1 < DELAY_TIME;u1++)
 //		{
 //
@@ -79,13 +67,11 @@ void vTask4(void *pvParameters)
 	vTaskDelete(NULL);
 }
 
-
-void app_main()
-{
-    printf("Hello world!\n");
-    xTaskCreate(vTask1,"Task 1",1000,pcTextForTask1,1,NULL);
-	xTaskCreate(vTask2,"Task 2",1000,pcTextForTask2,2,NULL);
-	xTaskCreate(vTask3,"Task 3",1000,pcTextForTask3,4,NULL);
-	xTaskCreate(vTask4,"Task 4",1000,pcTextForTask4,4,NULL);
+void app_main() {
+	printf("Hello world!\n");
+	xTaskCreate(vTask1, "Task 1", 1000, pcTextForTask1, 1, NULL);
+	xTaskCreate(vTask2, "Task 2", 1000, pcTextForTask2, 1, NULL);
+	xTaskCreate(vTask3, "Task 3", 1000, pcTextForTask3, 1, NULL);
+	xTaskCreate(vTask4, "Task 4", 1000, pcTextForTask4, 1, NULL);
 
 }
